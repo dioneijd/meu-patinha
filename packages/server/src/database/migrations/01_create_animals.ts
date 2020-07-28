@@ -5,8 +5,8 @@ export async function up(knex: Knex) {
         table.increments('idAnimal').primary()
         table.string('name').notNullable()
         table.string('description').notNullable()
-        table.string('idOng').notNullable()
-        table.foreign('idOng').references('idOng').inTable('ONGS')
+        table.string('idUser').notNullable()
+      //  table.foreign('idUser').references('idUser').inTable('USERS')
     })
 }
 
