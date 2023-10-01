@@ -7,7 +7,10 @@ import connection from '../database/connection'
 class UserController {
 	async index(request: Request, response: Response) {
         const users = await connection('USERS').select('*')
-        users.forEach(user => user.password = '*****')
+        users.forEach(user => {
+			delete user.email 
+			delete user.password 
+		})
 
 		return response.json(users)
 	}

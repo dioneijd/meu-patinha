@@ -3,13 +3,13 @@ import connection from '../database/connection'
 
 class AnimalsController {
 	async index(request: Request, response: Response) {
-		const { limitResult = 5, page = 1, idOng } = request.query
+		const { limitResult = 5, page = 1, idUser } = request.query
 
 		const [count] = await connection('ANIMALS').count()
         
         const animals = await connection('ANIMALS')
                                 .where(builder => {
-                                    if (idOng) builder.where('idOng', String(idOng))
+                                    if (idUser) builder.where('idUser', String(idUser))
                                 })
 								.limit(Number(limitResult))
 								.offset((Number(page) - 1) * Number(limitResult))
@@ -21,12 +21,12 @@ class AnimalsController {
 	}
 
 	async store (request: Request, response: Response) {
-		const { name, description, idOng } = request.body		
+		const { name, description, idUser } = request.body		
 
 		const animal = {
 			name,
 			description,
-			idOng
+			idUser
 		}
 
 		const insertedIds = await connection('ANIMALS').insert(animal)
@@ -38,11 +38,11 @@ class AnimalsController {
 	async destroy (request: Request, response: Response) {
 		
         const { idAnimal } = request.params
-		const idOng = request.headers.authorization
+		const idUser = request.headers.authorization
 
 		const animal = await connection('ANIMALS')
 								.where('idAnimal', idAnimal)
-								.where('idOng', idOng)								
+								.where('idUser', idUser)								
 								.first()
 
 		if (!animal) return response.status(401).json({ error: 'Operation not permitted.' })

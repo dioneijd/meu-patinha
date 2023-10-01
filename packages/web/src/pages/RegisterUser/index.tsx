@@ -7,7 +7,7 @@ import './styles.css'
 
 import logoImg from '../../assets/logoBeTheHero.svg'
 
-export default function RegisterOng() {
+export default function RegisterUser() {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -34,7 +34,7 @@ export default function RegisterOng() {
 		}
 
 		try {
-			const response = await api.post('ongs', data)
+			const response = await api.post('users', data)
 			localStorage.setItem('user_data', JSON.stringify(response.data))
 
 			history.push('/profile')

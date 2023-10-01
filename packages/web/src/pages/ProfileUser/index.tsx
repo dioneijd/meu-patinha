@@ -16,9 +16,9 @@ interface AnimalInterface {
 }
 
 
-export default function ProfileOng() {
+export default function ProfileUser() {
 	const [animals, setAnimals] = useState<AnimalInterface[]>([])
-	const [idOng, setIdOng] = useState('')
+	const [idUser, setIdUser] = useState('')
 	const [ongName, setOngName] = useState('')
 
 	const history = useHistory()
@@ -28,34 +28,34 @@ export default function ProfileOng() {
 	useEffect(() => {
 		const userData = JSON.parse( localStorage.getItem('user_data') || '{}' )
 	
-		setIdOng(userData.idOng)	
+		setIdUser(userData.idUser)	
 		setOngName(userData.name)
 
 	}, [])
 
 
 	useEffect(() => {
-		if (idOng != '') getAnimals()
+		if (idUser != '') getAnimals()
 							
 		async function getAnimals(){			
-			const response = await api.get(`/animals?limitResult=10000&idOng=${idOng}`)
+			const response = await api.get(`/animals?limitResult=10000&idUser=${idUser}`)
 
 			if (response){
 				setAnimals(response.data)
 			}
 		}
 
-	}, [idOng])
+	}, [idUser])
 
 	async function handleDeleteIncident(idAnimal:string) {
 		try {
 			const response = await api.delete(`animals/${idAnimal}`, {
 				headers: {
-					Authorization: idOng,
+					Authorization: idUser,
 				}
-			})
-			
+			})			
 			setAnimals(animals.filter(animals => animals.idAnimal !== idAnimal))
+			
 		} catch (err) {
 			alert('Erro ao deletar caso, tente novamente.')
 		}
